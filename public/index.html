@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparador de Itens Semelhantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="titleblock">
+      <p class="eyebrow">FERRAMENTA INTERNA · ANÁLISE DE PORTFÓLIO</p>
+      <h1>Comparador de itens semelhantes</h1>
+      <p id="introText">Suba sua planilha sempre que precisar rodar a comparação. Antes, selecione o modo de comparação ao lado — cada um usa uma hierarquia de regras diferente.</p>
+    </div>
+    <div class="header-right">
+      <img class="brand-logo" src="assets/images/logo.png" alt="Logo">
+      <div class="mode-toggle">
+        <span class="label">Modo de comparação</span>
+        <div class="switch required" id="modeSwitch">
+          <button type="button" id="btnProfimetrics" data-mode="profimetrics">Profimetrics</button>
+          <button type="button" id="btnC5" data-mode="c5">C5</button>
+        </div>
+        <span class="hint" id="modeHint">Seleção obrigatória antes de comparar</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="card">
+    <p class="rules-title">Regra de Negócio</p>
+    <div class="rules" id="rulesContainer">
+      <div class="rule"><div class="k">—</div><div class="v">Selecione um modo acima para ver as regras aplicadas</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="dropzone" class="disabled">
+      <div class="big">Arraste a planilha aqui ou clique para selecionar</div>
+      <div class="small">Aceita .xlsx, .xls ou .csv — as colunas podem estar em qualquer ordem</div>
+    </div>
+    <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    <div class="filebar" id="filebar">
+      <span class="name" id="fileName"></span>
+      <button id="clearBtn">trocar arquivo</button>
+    </div>
+
+    <div class="controls">
+      <label>Tolerância de custo
+        <input type="range" id="tolerance" min="0" max="10" step="0.5" value="0">
+        <span id="tolVal">0%</span>
+      </label>
+      <label class="tolerance-hint">0% = custo idêntico · aumente para aceitar pequenas diferenças</label>
+    </div>
+
+    <div id="errorBox"></div>
+  </div>
+
+  <div id="resultsArea">
+    <div class="summary">
+      <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">itens na planilha</div></div>
+      <div class="stat"><div class="num" id="statGroups">0</div><div class="lbl">grupos semelhantes</div></div>
+      <div class="stat"><div class="num" id="statItems">0</div><div class="lbl">itens agrupados</div></div>
+    </div>
+
+    <div class="toolbar">
+      <h2>Itens semelhantes encontrados</h2>
+      <button id="downloadBtn">Baixar resultado (.xlsx)</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="resultsTable">
+        <thead>
+          <tr id="resultsHeadRow"></tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+    <div id="emptyState">Nenhum item semelhante encontrado com os critérios atuais.</div>
+  </div>
+
+  <footer>Tudo é processado no seu navegador — a planilha não é enviada para nenhum servidor.</footer>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
